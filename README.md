@@ -346,6 +346,17 @@ Options can be passed via data attributes or through the JavaScript options obje
 
 ***
 
+#### options.takeIncrement
+> __Type:__ `Int`
+>
+> __Default:__ `50`
+>
+> __Data Attribute:__ `data-abs-take-increment=...`
+>
+> Specify the buffer increment for fetched scrolling.
+
+***
+
 ### Locale Strings
 
 See: [options.locale](#optionslocale)
@@ -429,6 +440,8 @@ See: [options.locale](#optionslocale)
 The plugin expects a certain result structure, an array of objects with the objects following a certain structure, below is an example with every option set:
 
 ```js
+{
+total: int, // specify the total number of results so that the scroll to bottom trigger has an ending
 [
     {
         value: 'string',    // Required.
@@ -453,6 +466,7 @@ The plugin expects a certain result structure, an array of objects with the obje
     }
     ....
 ]
+}
 ```
 
 
@@ -468,7 +482,8 @@ $('.select-picker')
             url: '/server/path/to/ajax/results',
             data: function () {
                 var params = {
-                    q: '{{{q}}}'
+                    q: '{{{q}}}',
+                    take: 50 // this variable is inserted from the js backend and is available for the server side request
                 };
                 if(gModel.selectedGroup().hasOwnProperty('ContactGroupID')){
                     params.GroupID = gModel.selectedGroup().ContactGroupID;
@@ -476,6 +491,7 @@ $('.select-picker')
                 return params;
             }
         },
+        takeIncrement: 50,
         locale: {
             emptyTitle: 'Search for contact...'
         },
